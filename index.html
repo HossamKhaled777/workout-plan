@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>خطة التمارين الاحترافية - 6 أشهر</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black:#0a0a0a;--dark:#111;--card:#181818;--border:#252525;
+    --gold:#e8c44a;--red:#e53935;--blue:#1e90ff;--green:#00c853;--purple:#ce93d8;
+    --yt:#ff0000;--text:#f0f0f0;--muted:#888;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--black);color:var(--text);font-family:'Cairo',sans-serif;}
+
+  /* HERO */
+  .hero{background:linear-gradient(135deg,#0a0a0a 0%,#1a1200 50%,#0a0a0a 100%);border-bottom:3px solid var(--gold);padding:50px 20px 40px;text-align:center;position:relative;overflow:hidden;}
+  .hero::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(232,196,74,.03) 40px,rgba(232,196,74,.03) 80px);}
+  .hero-badge{display:inline-block;background:var(--gold);color:#000;font-weight:900;font-size:12px;letter-spacing:3px;padding:5px 16px;border-radius:2px;margin-bottom:18px;}
+  .hero h1{font-size:clamp(32px,5vw,64px);font-weight:900;line-height:1.1;margin-bottom:10px;}
+  .hero h1 span{color:var(--gold);}
+  .hero p{font-size:16px;color:var(--muted);max-width:460px;margin:0 auto 28px;}
+  .hero-stats{display:flex;justify-content:center;gap:36px;flex-wrap:wrap;}
+  .stat-num{font-size:34px;font-weight:900;color:var(--gold);display:block;}
+  .stat-label{font-size:12px;color:var(--muted);}
+
+  /* TABS */
+  .tabs-wrapper{position:sticky;top:0;z-index:100;background:var(--dark);border-bottom:2px solid var(--border);padding:0 16px;}
+  .tabs{display:flex;max-width:1100px;margin:0 auto;gap:4px;padding:10px 0;overflow-x:auto;scrollbar-width:none;}
+  .tabs::-webkit-scrollbar{display:none;}
+  .tab-btn{flex-shrink:0;background:transparent;border:1px solid var(--border);color:var(--muted);font-family:'Cairo',sans-serif;font-size:14px;font-weight:700;padding:9px 20px;border-radius:4px;cursor:pointer;transition:all .2s;white-space:nowrap;}
+  .tab-btn:hover{color:var(--gold);border-color:var(--gold);}
+  .tab-btn.active{background:var(--gold);border-color:var(--gold);color:#000;}
+
+  /* PHASE */
+  .phase{display:none;max-width:1100px;margin:0 auto;padding:36px 16px;}
+  .phase.active{display:block;}
+  .phase-header{display:flex;align-items:center;gap:18px;margin-bottom:36px;padding-bottom:20px;border-bottom:1px solid var(--border);flex-wrap:wrap;}
+  .phase-num{width:64px;height:64px;background:var(--gold);color:#000;font-weight:900;font-size:26px;display:flex;align-items:center;justify-content:center;border-radius:4px;flex-shrink:0;}
+  .phase-info h2{font-size:26px;font-weight:900;}
+  .phase-info p{font-size:14px;color:var(--muted);margin-top:3px;}
+  .phase-months{margin-right:auto;background:var(--card);border:1px solid var(--border);padding:7px 16px;border-radius:4px;font-size:13px;color:var(--gold);font-weight:700;}
+
+  /* DAY CARD */
+  .day-card{background:var(--card);border:1px solid var(--border);border-radius:8px;margin-bottom:20px;overflow:hidden;}
+  .day-header{display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;user-select:none;transition:background .2s;}
+  .day-header:hover{background:rgba(255,255,255,.03);}
+  .day-num{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px;flex-shrink:0;}
+  .d1 .day-num{background:rgba(229,57,53,.18);color:var(--red);border:2px solid var(--red);}
+  .d2 .day-num{background:rgba(30,144,255,.18);color:var(--blue);border:2px solid var(--blue);}
+  .d3 .day-num{background:rgba(0,200,83,.18);color:var(--green);border:2px solid var(--green);}
+  .d4 .day-num{background:rgba(232,196,74,.18);color:var(--gold);border:2px solid var(--gold);}
+  .d5 .day-num{background:rgba(156,39,176,.18);color:var(--purple);border:2px solid #9c27b0;}
+  .day-title-area{flex:1;}
+  .day-title{font-size:19px;font-weight:900;}
+  .day-sub{font-size:13px;color:var(--muted);margin-top:2px;}
+  .day-tag{padding:4px 13px;border-radius:20px;font-size:12px;font-weight:700;letter-spacing:1px;flex-shrink:0;}
+  .d1 .day-tag{background:rgba(229,57,53,.12);color:var(--red);}
+  .d2 .day-tag{background:rgba(30,144,255,.12);color:var(--blue);}
+  .d3 .day-tag{background:rgba(0,200,83,.12);color:var(--green);}
+  .d4 .day-tag{background:rgba(232,196,74,.12);color:var(--gold);}
+  .d5 .day-tag{background:rgba(156,39,176,.12);color:var(--purple);}
+  .chevron{font-size:18px;color:var(--muted);transition:transform .3s;}
+  .day-card.open .chevron{transform:rotate(180deg);}
+  .day-body{display:none;padding:0 20px 20px;}
+  .day-card.open .day-body{display:block;}
+
+  /* MUSCLE GROUP */
+  .mg{margin-bottom:26px;}
+  .mg-title{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:700;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:13px;padding-bottom:9px;border-bottom:1px solid var(--border);}
+  .mg-title::before{content:'';display:block;width:4px;height:14px;background:var(--gold);border-radius:2px;}
+
+  /* EXERCISE GRID */
+  .ex-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px;}
+
+  /* EXERCISE CARD */
+  .ex-card{background:var(--dark);border:1px solid var(--border);border-radius:8px;overflow:hidden;transition:transform .2s,border-color .2s;display:flex;flex-direction:column;}
+  .ex-card:hover{transform:translateY(-3px);border-color:var(--gold);}
+
+  /* IMAGE AREA */
+  .ex-img-wrap{width:100%;height:155px;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;}
+  .ex-img-wrap img{width:100%;height:100%;object-fit:contain;padding:6px;transition:opacity .3s;}
+  .ex-fallback{font-size:50px;display:none;position:absolute;}
+
+  /* INFO */
+  .ex-info{padding:10px 12px 6px;}
+  .ex-name{font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px;line-height:1.3;}
+  .ex-sets{font-size:12px;color:var(--gold);font-weight:600;}
+
+  /* YOUTUBE BUTTON */
+  .yt-btn{display:flex;align-items:center;justify-content:center;gap:6px;margin:8px 10px 10px;padding:8px 12px;background:rgba(255,0,0,0.1);border:1px solid rgba(255,0,0,0.3);border-radius:6px;color:var(--yt);font-family:'Cairo',sans-serif;font-size:12px;font-weight:700;text-decoration:none;transition:all .2s;cursor:pointer;}
+  .yt-btn:hover{background:var(--yt);color:#fff;border-color:var(--yt);}
+  .yt-icon{width:18px;height:13px;flex-shrink:0;}
+
+  /* NOTE */
+  .note{background:rgba(232,196,74,.06);border:1px solid rgba(232,196,74,.2);border-radius:6px;padding:12px 16px;font-size:14px;color:var(--muted);margin-bottom:18px;}
+
+  footer{text-align:center;padding:28px;color:var(--muted);font-size:13px;border-top:1px solid var(--border);}
+
+  @media(max-width:580px){
+    .ex-grid{grid-template-columns:repeat(auto-fill,minmax(155px,1fr));}
+    .ex-img-wrap{height:120px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">POWER · DEFINITION · EXPLOSION</div>
+  <h1>خطة التمارين<br><span>الاحترافية</span></h1>
+  <p>صورة توضيحية + فيديو YouTube لكل تمرين</p>
+  <div class="hero-stats">
+    <div class="stat"><span class="stat-num">3</span><span class="stat-label">مراحل</span></div>
+    <div class="stat"><span class="stat-num">6</span><span class="stat-label">أشهر</span></div>
+    <div class="stat"><span class="stat-num">5</span><span class="stat-label">أيام / أسبوع</span></div>
+    <div class="stat"><span class="stat-num">+60</span><span class="stat-label">تمرين</span></div>
+  </div>
+</div>
+
+<div class="tabs-wrapper">
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showPhase(1)">🔥 المرحلة الأولى – بناء القوة</button>
+    <button class="tab-btn" onclick="showPhase(2)">⚡ المرحلة الثانية – الزوايا والتحديد</button>
+    <button class="tab-btn" onclick="showPhase(3)">💥 المرحلة الثالثة – التفجير العضلي</button>
+  </div>
+</div>
+
+<div id="app"></div>
+
+<footer>خطة تمارين احترافية · 6 أشهر · 3 مراحل · 5 أيام / أسبوع<br>
+<small style="color:#555;font-size:11px">صور: Wikimedia Commons (CC BY-SA 3.0) | فيديوهات: YouTube</small>
+</footer>
+
+<script>
+// ─── YouTube SVG Icon ───
+const YT_ICON = `<svg class="yt-icon" viewBox="0 0 18 13" fill="currentColor"><path d="M17.6 2s-.2-1.4-.8-2C16 -.2 14.8-.2 14.2-.1 11.9 0 9 0 9 0s-2.9 0-5.2.1C3.2-.2 2 -.2 1.2.1.6.6.4 2 0 3.4 0 5.5v1c0 2.1.4 3.5.4 3.5s.2 1.4.8 2c.8.7 2 .7 2.6.7C5.8 13 9 13 9 13s2.9 0 5.2-.2c.6-.1 1.8-.1 2.6-.8.6-.6.8-2 .8-2S18 8.6 18 6.5v-1C18 3.4 17.6 2 17.6 2zM7.2 8.9V3.6l4.8 2.7-4.8 2.6z"/></svg>`;
+
+// ─── YouTube search URL ───
+function ytUrl(query) {
+  return 'https://www.youtube.com/results?search_query=' + encodeURIComponent(query + ' exercise tutorial how to');
+}
+
+// ─── Wikimedia image URLs ───
+const IMG = {
+  benchBarFlat:   "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Bench_press_1.jpg/400px-Bench_press_1.jpg",
+  benchDBIncline: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Dumbbell-incline-bench-press-1.png/400px-Dumbbell-incline-bench-press-1.png",
+  benchBarIncline:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Incline-bench-press-1.png/400px-Incline-bench-press-1.png",
+  pecDec:         "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Pec-dec-fly-1.png/400px-Pec-dec-fly-1.png",
+  cableFly:       "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Cable-fly-1.png/400px-Cable-fly-1.png",
+  cableCrossover: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Cable-crossover-1.png/400px-Cable-crossover-1.png",
+  declinePress:   "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Decline-barbell-bench-press-1.png/400px-Decline-barbell-bench-press-1.png",
+  weightedPushup: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Weighted-pushup-1.png/400px-Weighted-pushup-1.png",
+  ohpBarbell:     "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Barbell-overhead-press-1.png/400px-Barbell-overhead-press-1.png",
+  lateralRaise:   "https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Dumbbell-lateral-raise-1.png/400px-Dumbbell-lateral-raise-1.png",
+  frontRaise:     "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Dumbbell-front-raise-1.png/400px-Dumbbell-front-raise-1.png",
+  dbShoulderPress:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Seated-dumbbell-press-1.png/400px-Seated-dumbbell-press-1.png",
+  arnoldPress:    "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Arnold-press-1.png/400px-Arnold-press-1.png",
+  uprightRow:     "https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Barbell-upright-row-1.png/400px-Barbell-upright-row-1.png",
+  ropeDown:       "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Triceps-pushdown-rope-1.png/400px-Triceps-pushdown-rope-1.png",
+  skullCrusher:   "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Skull-crusher-1.png/400px-Skull-crusher-1.png",
+  closeGrip:      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Close-grip-bench-press-1.png/400px-Close-grip-bench-press-1.png",
+  overheadExt:    "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Overhead-tricep-extension-1.png/400px-Overhead-tricep-extension-1.png",
+  benchDips:      "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Bench-dip-1.png/400px-Bench-dip-1.png",
+  dips:           "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Dip-1.png/400px-Dip-1.png",
+  diamondPushup:  "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Diamond-pushup-1.png/400px-Diamond-pushup-1.png",
+  kickback:       "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Triceps-kickback-1.png/400px-Triceps-kickback-1.png",
+  vbarDown:       "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Triceps-pushdown-1.png/400px-Triceps-pushdown-1.png",
+  latWide:        "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Lat-pulldown-1.png/400px-Lat-pulldown-1.png",
+  latNarrow:      "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Lat-pulldown-v-bar-1.png/400px-Lat-pulldown-v-bar-1.png",
+  seatedRow:      "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Seated-cable-row-1.png/400px-Seated-cable-row-1.png",
+  dbRow:          "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Dumbbell-row-1.png/400px-Dumbbell-row-1.png",
+  pullup:         "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Pullup-1.png/400px-Pullup-1.png",
+  deadlift:       "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Barbell-deadlift-1.png/400px-Barbell-deadlift-1.png",
+  romanianDL:     "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Romanian-deadlift-1.png/400px-Romanian-deadlift-1.png",
+  stiffLegDL:     "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Stiff-legged-deadlift-1.png/400px-Stiff-legged-deadlift-1.png",
+  rackPull:       "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Rack-pulls-1.png/400px-Rack-pulls-1.png",
+  tbarRow:        "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/T-bar-row-1.png/400px-T-bar-row-1.png",
+  hyperext:       "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Hyperextension-1.png/400px-Hyperextension-1.png",
+  goodMorning:    "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Good-morning-1.png/400px-Good-morning-1.png",
+  facePull:       "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Face-pull-1.png/400px-Face-pull-1.png",
+  rearDeltFly:    "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Rear-delt-fly-1.png/400px-Rear-delt-fly-1.png",
+  reverseFlyMach: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Reverse-fly-machine-1.png/400px-Reverse-fly-machine-1.png",
+  barbellCurl:    "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Barbell-curl-1.png/400px-Barbell-curl-1.png",
+  ezCurl:         "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/EZ-bar-curl-1.png/400px-EZ-bar-curl-1.png",
+  hammerCurl:     "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Hammer-curl-1.png/400px-Hammer-curl-1.png",
+  concCurl:       "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Concentration-curl-1.png/400px-Concentration-curl-1.png",
+  cableCurl:      "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Cable-curl-1.png/400px-Cable-curl-1.png",
+  inclineCurl:    "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Incline-dumbbell-curl-1.png/400px-Incline-dumbbell-curl-1.png",
+  preacherCurl:   "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Preacher-curl-1.png/400px-Preacher-curl-1.png",
+  spiderCurl:     "https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Spider-curl-1.png/400px-Spider-curl-1.png",
+  highCableCurl:  "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/High-cable-curl-1.png/400px-High-cable-curl-1.png",
+  zottman:        "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Zottman-curl-1.png/400px-Zottman-curl-1.png",
+  squat:          "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Barbell-squat-1.png/400px-Barbell-squat-1.png",
+  frontSquat:     "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Front-squat-1.png/400px-Front-squat-1.png",
+  hackSquat:      "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Hack-squat-1.png/400px-Hack-squat-1.png",
+  legPress:       "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Leg-press-1.png/400px-Leg-press-1.png",
+  legExt:         "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Leg-extension-1.png/400px-Leg-extension-1.png",
+  lyingCurl:      "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Lying-leg-curl-1.png/400px-Lying-leg-curl-1.png",
+  seatedCurl:     "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Seated-leg-curl-1.png/400px-Seated-leg-curl-1.png",
+  lunge:          "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Forward-lunge-1.png/400px-Forward-lunge-1.png",
+  bulgSplit:      "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Bulgarian-split-squat-1.png/400px-Bulgarian-split-squat-1.png",
+  standCalf:      "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Standing-calf-raise-1.png/400px-Standing-calf-raise-1.png",
+  seatedCalf:     "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Seated-calf-raise-1.png/400px-Seated-calf-raise-1.png",
+  crunch:         "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Crunch-1.png/400px-Crunch-1.png",
+  legRaise:       "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Leg-raise-1.png/400px-Leg-raise-1.png",
+  plank:          "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Plank-1.png/400px-Plank-1.png",
+  gluteBridge:    "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Glute-bridge-1.png/400px-Glute-bridge-1.png",
+};
+
+// ─── Build exercise card (image + YouTube button) ───
+function C(name, sets, imgKey, emoji, ytQuery) {
+  const src = imgKey ? (IMG[imgKey] || null) : null;
+  const searchQ = ytQuery || name;
+  return `<div class="ex-card">
+    <div class="ex-img-wrap">
+      ${src ? `<img src="${src}" alt="${name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">` : ''}
+      <div class="ex-fallback" style="${src ? '' : 'display:flex'}">${emoji}</div>
+    </div>
+    <div class="ex-info">
+      <div class="ex-name">${name}</div>
+      <div class="ex-sets">${sets}</div>
+    </div>
+    <a class="yt-btn" href="${ytUrl(searchQ)}" target="_blank" rel="noopener">
+      ${YT_ICON} شوف على YouTube
+    </a>
+  </div>`;
+}
+
+function G(title, cards) {
+  return `<div class="mg"><div class="mg-title">${title}</div><div class="ex-grid">${cards.join('')}</div></div>`;
+}
+
+// ─── All phases data ───
+const PHASES = [
+
+  // ══════════════════ PHASE 1 ══════════════════
+  { num:"01", title:"مرحلة بناء القوة", sub:"الأساس والكتلة العضلية", months:"الشهر 1 & 2", days:[
+
+    { cls:"d1", n:1, title:"يوم الدفع – Push", sub:"صدر · كتف · تراي", tag:"PUSH",
+      notes:["⏱️ <strong>بطن:</strong> 15 دقيقة – Crunches + Leg Raises"],
+      groups:[
+        G("صدر – 4 تمارين",[
+          C("بنش مستوي بار","3 × 10","benchBarFlat","🏋️","barbell bench press"),
+          C("بنش عالي دمبل","3 × 12","benchDBIncline","🏋️","incline dumbbell bench press"),
+          C("جهاز دفع صدر","3 × 12","pecDec","🤖","chest press machine"),
+          C("تفتيح كابل","3 × 15","cableFly","🏋️","cable fly chest"),
+        ]),
+        G("كتف – 4 تمارين",[
+          C("كتف بار أمامي واقف","3 × 10","ohpBarbell","💪","standing barbell overhead press"),
+          C("رفرفة جانبي دمبل","3 × 15","lateralRaise","💪","dumbbell lateral raise"),
+          C("رفرفة أمامي دمبل","3 × 12","frontRaise","💪","dumbbell front raise"),
+          C("ضغط كتف دمبل جالس","3 × 12","dbShoulderPress","💪","seated dumbbell shoulder press"),
+        ]),
+        G("تراي – 3 تمارين",[
+          C("تراي حبل كابل","3 × 15","ropeDown","🦾","triceps rope pushdown"),
+          C("بنش ضيق تراي","3 × 10","closeGrip","🦾","close grip bench press triceps"),
+          C("تراي خلف الرأس دمبل","3 × 12","overheadExt","🦾","overhead dumbbell tricep extension"),
+        ]),
+      ]
+    },
+
+    { cls:"d2", n:2, title:"يوم السحب – Pull", sub:"ظهر · كتف خلفي · باي", tag:"PULL",
+      notes:["💪 <strong>ساعد ورسغ:</strong> Barbell Wrist Curl 3×15 + Reverse Barbell Curl 3×15"],
+      groups:[
+        G("ظهر – 4 تمارين + قطنية",[
+          C("سحب عالي واسع","3 × 12","latWide","🏋️","wide grip lat pulldown"),
+          C("سحب أرضي كابل","3 × 12","seatedRow","🏋️","seated cable row"),
+          C("تجديف دمبل فردي","3 × 12","dbRow","🏋️","one arm dumbbell row"),
+          C("عقلة","لأقصى عدد","pullup","🏋️","pull up back exercise"),
+          C("Deadlift – رفعة مميتة","3 × 8","deadlift","🏋️","barbell deadlift form"),
+        ]),
+        G("كتف خلفي – 3 تمارين",[
+          C("Face Pulls حبل","3 × 15","facePull","💪","cable face pull rear delt"),
+          C("فراشة خلفي جهاز","3 × 12","reverseFlyMach","💪","reverse pec deck rear delt"),
+          C("رفرفة خلفي منحني دمبل","3 × 12","rearDeltFly","💪","bent over dumbbell rear delt fly"),
+        ]),
+        G("باي – 3 تمارين",[
+          C("باي بار مستقيم","3 × 12","barbellCurl","💪","barbell bicep curl"),
+          C("باي شاكوش","3 × 12","hammerCurl","💪","hammer curl biceps"),
+          C("باي تركيز","3 × 12","concCurl","💪","concentration curl bicep"),
+        ]),
+      ]
+    },
+
+    { cls:"d3", n:3, title:"يوم الرجل – Legs", sub:"أرجل كاملة + سمانة + قطنية", tag:"LEGS",
+      notes:["🔩 <strong>قطنية:</strong> Hyperextensions 3×15 &nbsp;|&nbsp; 🏃 <strong>كارديو:</strong> تريدميل 15 دقيقة مشي سريع"],
+      groups:[
+        G("أرجل – 6 تمارين",[
+          C("سكوات بار","4 × 10","squat","🦵","barbell back squat"),
+          C("دفع رجل","3 × 12","legPress","🦵","leg press machine"),
+          C("أمامي جهاز","3 × 15","legExt","🦵","leg extension machine"),
+          C("خلفي جهاز نايم","3 × 15","lyingCurl","🦵","lying leg curl hamstring"),
+          C("طعن مشي","3 × 12","lunge","🦵","walking lunges legs"),
+          C("سمانة واقف","4 × 20","standCalf","🦵","standing calf raise"),
+        ]),
+      ]
+    },
+
+    { cls:"d4", n:4, title:"يوم الذراع – Arms", sub:"باي · تراي · ساعد", tag:"ARMS",
+      notes:["💪 <strong>ساعد ورسغ:</strong> Wrist Curls + Reverse Curls"],
+      groups:[
+        G("باي – 4 تمارين",[
+          C("EZ-Bar Curl","3 × 12","ezCurl","💪","EZ bar curl bicep"),
+          C("Hammer Curl","3 × 12","hammerCurl","💪","hammer curl dumbbell"),
+          C("Concentration Curl","3 × 12","concCurl","💪","concentration curl"),
+          C("Cable Curl","3 × 15","cableCurl","💪","cable bicep curl"),
+        ]),
+        G("تراي – 4 تمارين",[
+          C("Skull Crushers","3 × 10","skullCrusher","🦾","skull crushers triceps EZ bar"),
+          C("Rope Pushdown","3 × 15","ropeDown","🦾","triceps rope pushdown cable"),
+          C("Overhead DB Extension","3 × 12","overheadExt","🦾","overhead tricep extension dumbbell"),
+          C("Dips","3 × 12","dips","🦾","parallel bar dips triceps"),
+        ]),
+      ]
+    },
+
+    { cls:"d5", n:5, title:"كارديو + بطن + كيجل", sub:"تريدميل · Core · Kegel", tag:"CARDIO",
+      notes:[],
+      groups:[
+        G("التمارين",[
+          C("تريدميل","15 دقيقة",null,"🏃","treadmill cardio workout"),
+          C("Crunches","15 دقيقة","crunch","🧘","crunches abs exercise"),
+          C("Leg Raises","15 دقيقة","legRaise","🧘","leg raises abs core"),
+          C("Glute Bridge","3 مجموعات","gluteBridge","🌉","glute bridge exercise"),
+          C("Plank (30ث)","3 مجموعات","plank","🪵","plank exercise core"),
+          C("كيجل","15 عدة",null,"🔑","kegel exercises how to"),
+        ]),
+      ]
+    },
+  ]},
+
+  // ══════════════════ PHASE 2 ══════════════════
+  { num:"02", title:"مرحلة الزوايا والتحديد", sub:"تشكيل العضلة وإظهار التفاصيل", months:"الشهر 3 & 4", days:[
+
+    { cls:"d1", n:1, title:"يوم الدفع – Push", sub:"صدر · كتف · تراي", tag:"PUSH",
+      notes:["⏱️ <strong>بطن:</strong> 15 دقيقة – Bicycle Crunches + Russian Twists"],
+      groups:[
+        G("صدر – 4 تمارين",[
+          C("بنش عالي بار","3 × 10","benchBarIncline","🏋️","incline barbell bench press"),
+          C("بنش مستوي دمبل","3 × 12","benchBarFlat","🏋️","flat dumbbell bench press"),
+          C("تفتيح جهاز فراشة","3 × 15","pecDec","🏋️","pec deck fly machine"),
+          C("بنش مقلوب جهاز","3 × 12","declinePress","🏋️","decline bench press machine"),
+        ]),
+        G("كتف – 4 تمارين",[
+          C("كتف أرنولد دمبل","3 × 12","arnoldPress","💪","arnold press shoulder"),
+          C("رفرفة جانبي كابل","3 × 15","lateralRaise","💪","cable lateral raise shoulder"),
+          C("رفرفة أمامي طارة","3 × 12","frontRaise","💪","plate front raise shoulder"),
+          C("ضغط كتف سميث","3 × 10","dbShoulderPress","💪","smith machine shoulder press"),
+        ]),
+        G("تراي – 3 تمارين",[
+          C("تراي بار نايم","3 × 12","skullCrusher","🦾","lying tricep extension barbell"),
+          C("غطس دكة","3 × 15","benchDips","🦾","bench dips triceps"),
+          C("تراي ركلة دمبل","3 × 15","kickback","🦾","dumbbell tricep kickback"),
+        ]),
+      ]
+    },
+
+    { cls:"d2", n:2, title:"يوم السحب – Pull", sub:"ظهر · كتف خلفي · باي", tag:"PULL",
+      notes:["💪 <strong>ساعد ورسغ:</strong> DB Wrist Curl 3×15 + Behind Back Wrist Curl 3×15"],
+      groups:[
+        G("ظهر – 4 تمارين + قطنية",[
+          C("سحب عالي ضيق V-Bar","3 × 12","latNarrow","🏋️","v bar lat pulldown close grip"),
+          C("تجديف بار T-Bar","3 × 12","tbarRow","🏋️","T bar row back"),
+          C("تجديف بار مقلوب","3 × 12","dbRow","🏋️","underhand barbell row"),
+          C("سحب كابل ذراع مفرود","3 × 15","seatedRow","🏋️","single arm cable row"),
+          C("Good Morning Barbell","3 × 12","goodMorning","🏋️","good morning barbell lower back"),
+        ]),
+        G("كتف خلفي – 3 تمارين",[
+          C("خلفي كابل فردي","3 × 15","rearDeltFly","💪","single arm cable rear delt fly"),
+          C("سحب خلفي عالي","3 × 12","facePull","💪","high cable pull rear delt"),
+          C("جهاز خلفيات عكسي","3 × 15","reverseFlyMach","💪","reverse fly machine rear delt"),
+        ]),
+        G("باي – 3 تمارين",[
+          C("باي بنش مائل","3 × 12","inclineCurl","💪","incline dumbbell curl bicep"),
+          C("باي دكة","3 × 12","preacherCurl","💪","preacher curl bicep"),
+          C("باي كابل عالي","3 × 15","highCableCurl","💪","high cable curl bicep"),
+        ]),
+      ]
+    },
+
+    { cls:"d3", n:3, title:"يوم الرجل – Legs", sub:"أرجل كاملة + Incline Cardio", tag:"LEGS",
+      notes:["🔩 <strong>قطنية:</strong> Stiff-Leg Deadlift 3×12 &nbsp;|&nbsp; 🏃 <strong>كارديو:</strong> تريدميل 15 دقيقة Incline 5%"],
+      groups:[
+        G("أرجل – 6 تمارين",[
+          C("هاك سكوات","4 × 12","hackSquat","🦵","hack squat machine"),
+          C("دفع رجل واسع","3 × 15","legPress","🦵","wide stance leg press"),
+          C("أمامي فردي","3 × 15","legExt","🦵","single leg extension"),
+          C("خلفي جالس","3 × 15","seatedCurl","🦵","seated leg curl hamstring"),
+          C("سكوات بلغاري","3 × 12","bulgSplit","🦵","bulgarian split squat"),
+          C("سمانة جالس","4 × 20","seatedCalf","🦵","seated calf raise"),
+        ]),
+      ]
+    },
+
+    { cls:"d4", n:4, title:"يوم الذراع – Arms", sub:"باي · تراي · ساعد", tag:"ARMS",
+      notes:["💪 <strong>ساعد ورسغ:</strong> DB Wrist Curls + Behind-the-back Curls"],
+      groups:[
+        G("باي – 4 تمارين",[
+          C("Incline DB Curl","3 × 12","inclineCurl","💪","incline dumbbell curl"),
+          C("Preacher Curl","3 × 12","preacherCurl","💪","preacher curl"),
+          C("Spider Curls","3 × 12","spiderCurl","💪","spider curls biceps"),
+          C("High Cable Curl","3 × 15","highCableCurl","💪","high cable curl bicep"),
+        ]),
+        G("تراي – 4 تمارين",[
+          C("Close Grip Bench Press","3 × 10","closeGrip","🦾","close grip bench press"),
+          C("V-Bar Pushdown","3 × 15","vbarDown","🦾","v bar triceps pushdown"),
+          C("DB Kickbacks","3 × 15","kickback","🦾","dumbbell tricep kickback"),
+          C("Bench Dips","لأقصى عدد","benchDips","🦾","bench dips triceps"),
+        ]),
+      ]
+    },
+
+    { cls:"d5", n:5, title:"كارديو + بطن + كيجل", sub:"تريدميل · Core · Kegel", tag:"CARDIO",
+      notes:["✅ نفس تمارين اليوم الخامس في المرحلة الأولى"],
+      groups:[
+        G("التمارين",[
+          C("تريدميل","15 دقيقة",null,"🏃","treadmill cardio"),
+          C("بطن","15 دقيقة","crunch","🧘","abs workout crunches"),
+          C("Glute Bridge","3 مجموعات","gluteBridge","🌉","glute bridge"),
+          C("Plank 30ث","3 مجموعات","plank","🪵","plank exercise"),
+          C("كيجل","15 عدة",null,"🔑","kegel exercises"),
+        ]),
+      ]
+    },
+  ]},
+
+  // ══════════════════ PHASE 3 ══════════════════
+  { num:"03", title:"مرحلة التفجير العضلي", sub:"القوة القصوى والكثافة العالية", months:"الشهر 5 & 6", days:[
+
+    { cls:"d1", n:1, title:"يوم الدفع – Push", sub:"صدر · كتف · تراي", tag:"PUSH",
+      notes:["⏱️ <strong>بطن:</strong> 15 دقيقة – Hanging Leg Raises + Plank"],
+      groups:[
+        G("صدر – 4 تمارين",[
+          C("تفتيح كابل سفلي","3 × 15","cableCrossover","🏋️","low cable fly chest"),
+          C("Weighted Pushups","3 × 15","weightedPushup","🏋️","weighted push up chest"),
+          C("بنش عالي سميث","3 × 10","benchBarIncline","🏋️","smith machine incline bench press"),
+          C("كابل كروس","3 × 15","cableFly","🏋️","cable crossover chest fly"),
+        ]),
+        G("كتف – 4 تمارين",[
+          C("كتف جانبي كابل مائل","3 × 15","lateralRaise","💪","leaning cable lateral raise"),
+          C("رفرفة أمامي كابل","3 × 12","frontRaise","💪","cable front raise shoulder"),
+          C("Upright Row بار","3 × 12","uprightRow","💪","barbell upright row shoulder"),
+          C("ضغط كتف بار","3 × 10","ohpBarbell","💪","barbell overhead press"),
+        ]),
+        G("تراي – 3 تمارين",[
+          C("تراي كابل فردي","3 × 15","ropeDown","🦾","single arm cable tricep pushdown"),
+          C("غطس متوازي بوزن","3 × 12","dips","🦾","weighted parallel bar dips"),
+          C("Diamond Pushups","3 × 15","diamondPushup","🦾","diamond push up triceps"),
+        ]),
+      ]
+    },
+
+    { cls:"d2", n:2, title:"يوم السحب – Pull", sub:"ظهر · كتف خلفي · باي", tag:"PULL",
+      notes:["💪 <strong>ساعد:</strong> Wrist Roller 3 مجموعات + Farmer's Walk 3×30ث"],
+      groups:[
+        G("ظهر – 4 تمارين + قطنية",[
+          C("عقلة بوزن","3 × 8","pullup","🏋️","weighted pull up"),
+          C("Meadows Row","3 × 12","dbRow","🏋️","meadows row back exercise"),
+          C("سحب أرضي ضيق","3 × 12","seatedRow","🏋️","close grip seated cable row"),
+          C("سحب عالي فردي","3 × 15","latNarrow","🏋️","single arm lat pulldown"),
+          C("Rack Pulls","3 × 8","rackPull","🏋️","rack pulls deadlift variation"),
+        ]),
+        G("كتف خلفي – 3 تمارين",[
+          C("خلفي كابل كروس","3 × 15","rearDeltFly","💪","cable crossover rear delt"),
+          C("خلفي فردي دمبل","3 × 15","rearDeltFly","💪","single arm dumbbell rear delt"),
+          C("خلفي حبل ثبات 2ث","3 × 12","facePull","💪","face pull rear delt hold"),
+        ]),
+        G("باي – 3 تمارين",[
+          C("باي سبايدر","3 × 12","spiderCurl","💪","spider curl biceps"),
+          C("باي زوتمان","3 × 12","zottman","💪","zottman curl biceps forearm"),
+          C("باي حبل كابل","3 × 15","cableCurl","💪","rope cable curl bicep"),
+        ]),
+      ]
+    },
+
+    { cls:"d3", n:3, title:"يوم الرجل – Legs", sub:"أرجل كاملة + HIIT", tag:"LEGS",
+      notes:["🔩 <strong>قطنية:</strong> Romanian Deadlift 3×12 &nbsp;|&nbsp; 🔥 <strong>كارديو:</strong> تريدميل 15 دقيقة HIIT"],
+      groups:[
+        G("أرجل – 6 تمارين",[
+          C("سكوات أمامي","4 × 10","frontSquat","🦵","front squat barbell"),
+          C("دفع رجل سومو","3 × 15","legPress","🦵","sumo leg press wide stance"),
+          C("أمامي فردي","3 × 20","legExt","🦵","single leg extension"),
+          C("خلفي فردي","3 × 20","seatedCurl","🦵","single leg curl"),
+          C("طعن جانبي","3 × 12","lunge","🦵","lateral lunge legs"),
+          C("سمانة دونكي","4 × 20","standCalf","🦵","donkey calf raise"),
+        ]),
+      ]
+    },
+
+    { cls:"d4", n:4, title:"يوم الذراع – Arms", sub:"باي · تراي · ساعد", tag:"ARMS",
+      notes:["💪 <strong>ساعد:</strong> Wrist Roller + Farmer's Walk"],
+      groups:[
+        G("باي – 4 تمارين",[
+          C("Spider Curls","3 × 12","spiderCurl","💪","spider curls bicep"),
+          C("Zottman Curls","3 × 12","zottman","💪","zottman curl"),
+          C("Rope Hammer Curl","3 × 15","hammerCurl","💪","rope hammer curl cable"),
+          C("Barbell Curl ضيق","3 × 12","barbellCurl","💪","narrow grip barbell curl"),
+        ]),
+        G("تراي – 4 تمارين",[
+          C("Single Arm Extension","3 × 15","overheadExt","🦾","single arm overhead tricep extension"),
+          C("Weighted Dips","3 × 12","dips","🦾","weighted dips triceps"),
+          C("Diamond Pushups","3 × 15","diamondPushup","🦾","diamond push up"),
+          C("French Press","3 × 12","skullCrusher","🦾","french press barbell triceps"),
+        ]),
+      ]
+    },
+
+    { cls:"d5", n:5, title:"كارديو + بطن + كيجل", sub:"تريدميل · Core · Kegel", tag:"CARDIO",
+      notes:["✅ نفس تمارين اليوم الخامس لضمان قوة الحوض والبطن"],
+      groups:[
+        G("التمارين",[
+          C("تريدميل","15 دقيقة",null,"🏃","treadmill cardio HIIT"),
+          C("بطن","15 دقيقة","crunch","🧘","abs workout"),
+          C("Glute Bridge","3 مجموعات","gluteBridge","🌉","glute bridge"),
+          C("Squat Isometric","3 مجموعات",null,"🪑","isometric squat hold"),
+          C("Plank 30ث","3 مجموعات","plank","🪵","plank exercise core"),
+          C("كيجل","15 عدة",null,"🔑","kegel exercises"),
+        ]),
+      ]
+    },
+  ]},
+];
+
+// ─── RENDER ───
+const app = document.getElementById('app');
+PHASES.forEach((phase, pi) => {
+  let html = `<div class="phase ${pi===0?'active':''}" id="phase-${pi+1}">
+    <div class="phase-header">
+      <div class="phase-num">${phase.num}</div>
+      <div class="phase-info"><h2>${phase.title}</h2><p>${phase.sub}</p></div>
+      <div class="phase-months">${phase.months}</div>
+    </div>`;
+
+  phase.days.forEach((day, di) => {
+    html += `<div class="day-card ${day.cls}${di===0?' open':''}">
+      <div class="day-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="day-num">${day.n}</div>
+        <div class="day-title-area">
+          <div class="day-title">${day.title}</div>
+          <div class="day-sub">${day.sub}</div>
+        </div>
+        <span class="day-tag">${day.tag}</span>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="day-body">
+        ${day.notes.map(n=>`<div class="note">${n}</div>`).join('')}
+        ${day.groups.join('')}
+      </div>
+    </div>`;
+  });
+
+  html += `</div>`;
+  app.innerHTML += html;
+});
+
+function showPhase(n) {
+  document.querySelectorAll('.phase').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('phase-'+n).classList.add('active');
+  document.querySelectorAll('.tab-btn')[n-1].classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
